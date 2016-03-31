@@ -10,8 +10,8 @@ import javafx.scene.image.Image;
 public class Sprite
 {
     private Image image;
-    private double positionX;
-    private double positionY;
+    public double positionX;
+    public double positionY;
     private double velocityX;
     private double velocityY;
     private double width;

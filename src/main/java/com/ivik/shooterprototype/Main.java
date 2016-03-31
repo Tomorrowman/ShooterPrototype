@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import static javafx.scene.paint.Color.BLACK;
@@ -67,11 +68,15 @@ public class Main extends Application{
         ship.setImage("ship.png");
         ship.setPosition(400, 540);
 
-        //final ArrayList<Sprite> laserList = new ArrayList<>();
-        final Sprite laser = new Sprite();
-        laser.setImage("laser.png");
+        final Sprite enema = new Sprite();
+        enema.setImage("enema.png");
+        enema.setPosition(400, 240);
+
+        final ArrayList<Sprite> laserList = new ArrayList<>();
 
         final double[] lastNanoTime = {System.nanoTime()};
+        final long[] lastShoot = {System.currentTimeMillis()};
+        final long threshold = 500;
 
         new AnimationTimer()
         {
@@ -92,20 +97,33 @@ public class Main extends Application{
                 if (input.contains("DOWN"))
                     ship.addVelocity(0,200);
 
-                if (input.contains("Z"))
-                    laser.setPosition(400, 540);
-                laser.addVelocity(0, -1);
-                //laserList.add(laser);
+                if (input.contains("Z")) {
+                    long now = System.currentTimeMillis();
+                    if (now - lastShoot[0] > threshold){
+                        Sprite laser = new Sprite();
+                        laser.setImage("laser.png");
+                        laser.setPosition(ship.positionX + 10, ship.positionY - 15);
+                        laser.addVelocity(0, -250);
+                        laserList.add(laser);
+                        lastShoot[0] = now;
+                    }
+                }
 
                 ship.update(elapsedTime);
-                laser.update(elapsedTime);
+
+                for (Sprite laser : laserList )
+                        laser.update(elapsedTime);
+
 
                 // Clear the canvas
                 gc.clearRect(0, 0, 800, 600);
                 //Render
                 gc.drawImage(background, 0, 0);
                 ship.render(gc);
-                laser.render(gc);
+                enema.render(gc);
+
+                for (Sprite laser : laserList )
+                    laser.render( gc );
 
 
 
