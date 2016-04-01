@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.RED;
@@ -68,9 +69,17 @@ public class Main extends Application{
         ship.setImage("ship.png");
         ship.setPosition(400, 540);
 
-        final Sprite enema = new Sprite();
-        enema.setImage("enema.png");
-        enema.setPosition(400, 240);
+        final ArrayList<Sprite> enemaList = new ArrayList<>();
+        for (int i = 0; i < 15; i++)
+        {
+            Sprite enema = new Sprite();
+            enema.setImage("enema.png");
+            double px = 800 * Math.random();
+            double py = -400 * Math.random();
+            enema.setPosition(px,py);
+            enema.setVelocity(0, 100);
+            enemaList.add(enema);
+        }
 
         final ArrayList<Sprite> laserList = new ArrayList<>();
 
@@ -111,6 +120,9 @@ public class Main extends Application{
 
                 ship.update(elapsedTime);
 
+                for (Sprite enema : enemaList)
+                        enema.update(elapsedTime);
+
                 for (Sprite laser : laserList )
                         laser.update(elapsedTime);
 
@@ -120,10 +132,24 @@ public class Main extends Application{
                 //Render
                 gc.drawImage(background, 0, 0);
                 ship.render(gc);
+
+                for(Sprite enema : enemaList)
                 enema.render(gc);
 
-                for (Sprite laser : laserList )
-                    laser.render( gc );
+                for (Sprite laser : laserList)
+                    laser.render(gc);
+
+                //collision detection
+                Iterator<Sprite> enemaIter = enemaList.iterator();
+                Iterator<Sprite> laserIter = laserList.iterator();
+                while (enemaIter.hasNext() && laserIter.hasNext()){
+                    Sprite enema = enemaIter.next();
+                    Sprite laser = laserIter.next();
+                    if(enema.intersects(laser)){
+                        enemaIter.remove();
+                        laserIter.remove();
+                    }
+                }
 
 
 
