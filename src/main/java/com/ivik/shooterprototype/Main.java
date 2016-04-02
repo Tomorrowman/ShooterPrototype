@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.RED;
@@ -140,14 +139,12 @@ public class Main extends Application{
                     laser.render(gc);
 
                 //collision detection
-                Iterator<Sprite> enemaIter = enemaList.iterator();
-                Iterator<Sprite> laserIter = laserList.iterator();
-                while (enemaIter.hasNext() && laserIter.hasNext()){
-                    Sprite enema = enemaIter.next();
-                    Sprite laser = laserIter.next();
-                    if(enema.intersects(laser)){
-                        enemaIter.remove();
-                        laserIter.remove();
+                for (int i = 0; i < enemaList.size() ; i++){
+                    for (int j = 0; j < laserList.size() ; j++){
+                        if (enemaList.get(i).intersects(laserList.get(j))){
+                            enemaList.remove(i);
+                            laserList.remove(j);
+                        }
                     }
                 }
 
