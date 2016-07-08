@@ -18,7 +18,7 @@ import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.RED;
 
 /**
- * Created by Eigenaar on 17-3-2016.
+ * Created by Tomorrowman on 17-3-2016.
  */
 public class Main extends Application{
 
@@ -28,7 +28,7 @@ public class Main extends Application{
         stage.setTitle("Prototype");
 
         Group root = new Group();
-        Scene scene = new Scene( root );
+        Scene scene = new Scene(root);
         stage.setScene(scene);
 
         Canvas canvas = new Canvas( 800, 600);
@@ -140,6 +140,10 @@ public class Main extends Application{
 
                 //collision detection
                 for (int i = 0; i < enemaList.size() ; i++){
+                    if (enemaList.get(i).intersects(ship)){
+                        enemaList.remove(i);
+
+                    }
                     for (int j = 0; j < laserList.size() ; j++){
                         if (enemaList.get(i).intersects(laserList.get(j))){
                             enemaList.remove(i);

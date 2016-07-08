@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
- * Created by Eigenaar on 18-3-2016.
+ * Created by Tomorrowman on 18-3-2016.
  */
 public class Sprite
 {
